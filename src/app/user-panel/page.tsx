@@ -5,7 +5,6 @@ import { IAnswer, IQuestion } from "@/interfaces/global.interface";
 import { timeAgo } from "@/utils/timeAgo";
 import { useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
-
 const UserPanelPage = () => {
   const [questions, setQuestions] = useLocalStorage<IQuestion[]>(
     "adminQuestions",
@@ -14,7 +13,7 @@ const UserPanelPage = () => {
   const [answers, setAnswers] = useLocalStorage<IAnswer[]>("userAnswers", []);
   const [isClient, setIsClient] = useState(false);
   const [inputValues, setInputValues] = useState<{ [qid: string]: string }>({});
-  
+  const [editingAnswerId, setEditingAnswerId] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -60,6 +59,7 @@ const UserPanelPage = () => {
         ],
       };
       setAnswers(updatedAnswers);
+      setEditingAnswerId(null); // Clear editing state after edit
     }
   };
 
@@ -96,21 +96,41 @@ const UserPanelPage = () => {
                       </div>
                     ))}
                   </div>
-                  <button
-                    onClick={() => {
-                      const editedAnswer = prompt(
-                        "Edit your answer:",
-                        userAnswer.answer
-                      );
-                      if (editedAnswer !== null) {
-                        editAnswer(question.qid, editedAnswer);
-                      }
-                    }}
-                    className="text-blue-500 hover:underline flex items-center"
-                  >
-                    <AiFillEdit className="mr-1" />
-                    Edit Answer
-                  </button>
+                  {editingAnswerId === question.qid ? (
+                    <>
+                      <input
+                        type="text"
+                        value={inputValue}
+                        onChange={(e) =>
+                          handleInputChange(question.qid, e.target.value)
+                        }
+                        placeholder="Type your edited answer here..."
+                        className="border border-gray-400 p-2 mr-2"
+                      />
+                      <button
+                        onClick={() => {
+                          if (inputValue.trim() !== "") {
+                            editAnswer(question.qid, inputValue);
+                            setInputValues({
+                              ...inputValues,
+                              [question.qid]: "",
+                            });
+                          }
+                        }}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Submit Edit
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => setEditingAnswerId(question.qid)}
+                      className="text-blue-500 hover:underline flex items-center"
+                    >
+                      <AiFillEdit className="mr-1" />
+                      Edit Answer
+                    </button>
+                  )}
                 </>
               ) : (
                 <div>

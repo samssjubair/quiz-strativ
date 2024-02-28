@@ -1,5 +1,4 @@
 "use client"
-// pages/admin.tsx
 
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
