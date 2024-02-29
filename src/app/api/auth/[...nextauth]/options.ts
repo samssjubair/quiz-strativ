@@ -1,3 +1,4 @@
+import { dummyUsers } from "@/data/dummyUsers";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -18,21 +19,14 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const user = {
-          id: "42",
-          name: "admin@gmail.com",
-          password: "password",
-          role: "admin",
-        };
+         const user = dummyUsers.find(
+           (u) =>
+             u.name === credentials?.username &&
+             u.password === credentials?.password
+         );
 
-        if (
-          credentials?.username === user.name &&
-          credentials?.password === user.password
-        ) {
-          return user;
-        } else {
-          return null;
-        }
+         // Return user if found, otherwise null
+         return user ? user : null;
       },
     }),
   ],

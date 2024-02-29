@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-quaternary px-8 p-4 flex items-center justify-between fixed w-full z-50">
       <Link className="text-white    flex hover:text-tertiary" href="/">
-        <h2 className="text-xl font-bold uppercase">Quiz App</h2>
+        <h2 className="text-xl font-bold uppercase">☑️ Quiz App</h2>
       </Link>
 
       <div className="flex items-center space-x-4">

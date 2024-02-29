@@ -11,7 +11,7 @@ body{
 }
 
 .btn {
-  @apply transition-opacity p-2 border-gray-100 border px-4 rounded-md cursor-pointer hover:opacity-80 hover:shadow-lg ;
+  @apply transition-opacity p-2 border-gray-700 border px-4 rounded-md cursor-pointer hover:opacity-80 hover:shadow-lg ;
 }
 
 .login-btn {
