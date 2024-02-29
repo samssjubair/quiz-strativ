@@ -1,12 +1,11 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import { signIn, useSession } from "next-auth/react";
 import { IoIosLogIn, IoIosLogOut } from "react-icons/io";
 
 const Navbar: React.FC = () => {
-    const { data: session } = useSession();
-    console.log(session);
+  const { data: session } = useSession();
   return (
     <nav className="bg-quaternary px-8 p-4 flex items-center justify-between fixed w-full z-50">
       <Link className="text-white    flex hover:text-tertiary" href="/">

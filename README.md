@@ -19,6 +19,9 @@
 - [x] Tailwind CSS
 - [x] Typescript
 - [x] React Icons
+- [x] clsx
+- [x] Next-auth
+- [x] Framer motion
 
 
 ## Getting Started

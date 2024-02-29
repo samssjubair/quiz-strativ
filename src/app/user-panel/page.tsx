@@ -1,10 +1,8 @@
 "use client"
-
+import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { IAnswer, IQuestion } from "@/interfaces/global.interface";
-import { timeAgo } from "@/utils/timeAgo";
-import { useEffect, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
+import QuestionContainer from "@/components/UserPage/QuestionContainer";
 
 const UserPanelPage = () => {
   const [questions, setQuestions] = useLocalStorage<IQuestion[]>(
@@ -40,7 +38,7 @@ const UserPanelPage = () => {
         answerId: generateAnswerId(),
         qid,
         answer,
-        answeredBy: "User", // You can replace "User" with the actual user's name
+        answeredBy: "User",
         editHistory: [{ date: new Date().toISOString(), answer }],
       };
       setAnswers([...answers, newAnswer]);
@@ -79,90 +77,19 @@ const UserPanelPage = () => {
     <div>
       <h1 className="text-2xl font-bold mb-4">User Panel</h1>
       {isClient &&
-        questions.map((question: IQuestion) => {
-          const userAnswer = answers.find((a) => a.qid === question.qid);
-          const inputValue = inputValues[question.qid] || "";
-          return (
-            <div key={question.qid} className="mb-4">
-              <h2 className="text-lg font-semibold">{question.qname}</h2>
-              {userAnswer ? (
-                <>
-                  <div>{userAnswer.answer}</div>
-                  <div className="text-sm text-gray-500">
-                    <span>Edited:</span>
-                    {userAnswer.editHistory.map((history, index) => (
-                      <div className="flex gap-4" key={index}>
-                        <span>{history.answer}</span>
-                        <span>{timeAgo(history.date)} </span>
-                      </div>
-                    ))}
-                  </div>
-                  {editingAnswerId === question.qid ? (
-                    <>
-                      <input
-                        type="text"
-                        value={inputValue}
-                        onChange={(e) =>
-                          handleInputChange(question.qid, e.target.value)
-                        }
-                        placeholder="Type your edited answer here..."
-                        className="border border-gray-400 p-2 mr-2"
-                      />
-                      <button
-                        onClick={() => {
-                          if (inputValue.trim() !== "") {
-                            editAnswer(question.qid, inputValue);
-                            setInputValues({
-                              ...inputValues,
-                              [question.qid]: "",
-                            });
-                          }
-                        }}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        Submit Edit
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => setEditingAnswerId(question.qid)}
-                      className="text-blue-500 hover:underline flex items-center"
-                    >
-                      <AiFillEdit className="mr-1" />
-                      Edit Answer
-                    </button>
-                  )}
-                </>
-              ) : (
-                <div>
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) =>
-                      handleInputChange(question.qid, e.target.value)
-                    }
-                    placeholder="Type your answer here..."
-                    className="border border-gray-400 p-2 mr-2"
-                  />
-                  <button
-                    onClick={() => {
-                      if (inputValue.trim() !== "") {
-                        submitAnswer(question.qid, inputValue);
-                        setInputValues({
-                          ...inputValues,
-                          [question.qid]: "",
-                        });
-                      }
-                    }}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Submit Answer
-                  </button>
-                </div>
-              )}
-            </div>
-          );
-        })}
+        questions.map((question: IQuestion) => (
+          <QuestionContainer
+            key={question.qid}
+            question={question}
+            answers={answers}
+            inputValues={inputValues}
+            editingAnswerId={editingAnswerId}
+            setEditingAnswerId={setEditingAnswerId}
+            handleInputChange={handleInputChange}
+            submitAnswer={submitAnswer}
+            editAnswer={editAnswer}
+          />
+        ))}
     </div>
   );
 };
