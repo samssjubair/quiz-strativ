@@ -14,8 +14,9 @@ export const QuestionList: React.FC<QuestionListProps> = ({
 }) => {
   return (
     <div>
-      {questions.map((question) => (
+      {questions.map((question, index) => (
         <QuestionItem
+          index={index}
           key={question.qid}
           question={question}
           onDelete={onDelete}

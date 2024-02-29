@@ -13,19 +13,18 @@ export const QuestionForm: React.FC<{ onSubmit: (newQuestion: string) => void }>
   };
 
   return (
-    <div className="mb-4 flex items-center">
-      <input
-        type="text"
+    <div className="mb-6 flex flex-col items-start gap-2">
+      <textarea
         value={newQuestion}
         onChange={(e) => setNewQuestion(e.target.value)}
-        placeholder="Enter your question"
-        className="border border-gray-400 p-2 mr-2 flex-grow"
+        placeholder="Add a new question"
+        className="border bg-primary text-white border-gray-400 rounded w-full p-2  flex-grow"
       />
       <button
         onClick={addQuestion}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-tertiary border-gray-600 border text-white font-bold py-2 px-4 rounded"
       >
-        Add Question
+        Add
       </button>
     </div>
   );

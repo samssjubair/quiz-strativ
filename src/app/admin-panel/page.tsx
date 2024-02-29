@@ -38,8 +38,8 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl text-center font-bold mb-4">Admin Page</h1>
-      <div className="w-1/2 mx-auto">
+      <h1 className="text-xl text-center text-white uppercase  font-bold mb-6">Admin Page</h1>
+      <div className="w-full md:w-1/2 mx-auto">
         <QuestionForm
           onSubmit={(newQuestion) =>
             setQuestions([
