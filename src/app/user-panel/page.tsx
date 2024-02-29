@@ -22,14 +22,16 @@ const UserPanelPage = () => {
 
   const submitAnswer = (qid: string, answer: string) => {
     const answeredBy = session?.user?.name || "Anonymous";
-    const existingAnswerIndex = answers.findIndex((a) => a.qid === qid);
+    const existingAnswerIndex = answers.findIndex(
+      (a) => a.qid === qid && a.answeredBy === answeredBy
+    );
+
     if (existingAnswerIndex !== -1) {
-      // Update existing answer
+      // Update existing answer if the user has already answered the question
       const updatedAnswers = [...answers];
       updatedAnswers[existingAnswerIndex] = {
         ...answers[existingAnswerIndex],
         answer,
-        answeredBy,
         editHistory: [
           ...answers[existingAnswerIndex].editHistory,
           { date: new Date().toISOString(), answer },
@@ -37,7 +39,7 @@ const UserPanelPage = () => {
       };
       setAnswers(updatedAnswers);
     } else {
-      // Add new answer
+      // Add new answer if the user is answering the question for the first time
       const newAnswer: IAnswer = {
         answerId: generateAnswerId(),
         qid,

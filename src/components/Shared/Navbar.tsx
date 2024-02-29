@@ -8,7 +8,7 @@ const Navbar: React.FC = () => {
   const { data: session } = useSession();
   return (
     <nav className="bg-black px-8 p-4 flex items-center justify-between fixed w-full z-50">
-      <Link className="text-white    flex hover:text-tertiary" href="/">
+      <Link className="text-white    flex hover:text-gray-300" href="/">
         <h1 className="text-2xl font-bold uppercase">☑️ Quiz App</h1>
       </Link>
 

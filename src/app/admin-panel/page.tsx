@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { IQuestion } from "@/interfaces/global.interface";
+import { IAnswer, IQuestion } from "@/interfaces/global.interface";
 import { QuestionList } from "@/components/AdminPage/QuestionList";
 import { QuestionForm } from "@/components/AdminPage/QuestionForm";
 
@@ -13,6 +13,8 @@ const AdminPage: React.FC = () => {
     []
   );
 
+  const [answers, setAnswers] = useLocalStorage<IAnswer[]>("userAnswers", []);
+  
   useEffect(() => {
     setIsClient(true); // Set isClient to true when component is mounted
   }, []); // Empty dependency array to ensure this effect runs only once
@@ -50,6 +52,7 @@ const AdminPage: React.FC = () => {
         />
         <QuestionList
           questions={questions}
+          answers={answers}
           onDelete={deleteQuestion}
           onEdit={editQuestion}
         />
