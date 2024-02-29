@@ -7,11 +7,15 @@ body{
 }
 
 .container-center{
-    @apply flex justify-center h-screen items-center;
+    @apply flex flex-col justify-center h-screen-80 items-center;
 }
 
 .btn {
   @apply transition-opacity p-2 border-gray-700 border px-4 rounded-md cursor-pointer hover:opacity-80 hover:shadow-lg ;
+}
+
+.animated-btn{
+    @apply bg-white font-bold dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800;
 }
 
 .login-btn {
@@ -24,4 +28,8 @@ body{
 
 .icon{
     @apply inline-block me-2 mb-1;
+}
+
+.h-screen-80{
+    height: 85vh;
 }
