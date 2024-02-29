@@ -33,17 +33,17 @@ const CredentialsModal: React.FC<CredentialsModalProps> = ({
       </div>
       <div className="mb-4">
         <h3 className="text-base font-semibold mb-1">User 1:</h3>
-        <p>Mail: abir@gmail.com</p>
+        <p>Mail: samss@gmail.com</p>
         <p>Password: 1234</p>
       </div>
       <div className="mb-4">
         <h3 className="text-base font-semibold mb-1">User 2:</h3>
-        <p>Mail: kamal@gmail.com</p>
+        <p>Mail: messi@gmail.com</p>
         <p>Password: 1234</p>
       </div>
       <div className="mb-4">
         <h3 className="text-base font-semibold mb-1">User 3:</h3>
-        <p>Mail: walter@gmail.com</p>
+        <p>Mail: mscott@gmail.com</p>
         <p>Password: 1234</p>
       </div>
       {/* <div className="mt-4 flex justify-end">

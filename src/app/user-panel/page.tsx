@@ -1,14 +1,16 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { IAnswer, IQuestion } from "@/interfaces/global.interface";
 import QuestionContainer from "@/components/UserPage/QuestionContainer";
+import { useSession } from "next-auth/react";
 
 const UserPanelPage = () => {
   const [questions, setQuestions] = useLocalStorage<IQuestion[]>(
     "adminQuestions",
     []
   );
+  const { data: session } = useSession();
   const [answers, setAnswers] = useLocalStorage<IAnswer[]>("userAnswers", []);
   const [isClient, setIsClient] = useState(false);
   const [inputValues, setInputValues] = useState<{ [qid: string]: string }>({});
@@ -19,6 +21,7 @@ const UserPanelPage = () => {
   }, []);
 
   const submitAnswer = (qid: string, answer: string) => {
+    const answeredBy = session?.user?.name || "Anonymous";
     const existingAnswerIndex = answers.findIndex((a) => a.qid === qid);
     if (existingAnswerIndex !== -1) {
       // Update existing answer
@@ -26,6 +29,7 @@ const UserPanelPage = () => {
       updatedAnswers[existingAnswerIndex] = {
         ...answers[existingAnswerIndex],
         answer,
+        answeredBy,
         editHistory: [
           ...answers[existingAnswerIndex].editHistory,
           { date: new Date().toISOString(), answer },
@@ -38,7 +42,7 @@ const UserPanelPage = () => {
         answerId: generateAnswerId(),
         qid,
         answer,
-        answeredBy: "User",
+        answeredBy,
         editHistory: [{ date: new Date().toISOString(), answer }],
       };
       setAnswers([...answers, newAnswer]);
@@ -46,19 +50,21 @@ const UserPanelPage = () => {
   };
 
   const editAnswer = (qid: string, editedAnswer: string) => {
+    const answeredBy = session?.user?.name || "Anonymous";
     const existingAnswerIndex = answers.findIndex((a) => a.qid === qid);
     if (existingAnswerIndex !== -1) {
       const updatedAnswers = [...answers];
       updatedAnswers[existingAnswerIndex] = {
         ...answers[existingAnswerIndex],
         answer: editedAnswer,
+        answeredBy,
         editHistory: [
           ...answers[existingAnswerIndex].editHistory,
           { date: new Date().toISOString(), answer: editedAnswer },
         ],
       };
       setAnswers(updatedAnswers);
-      setEditingAnswerId(null); // Clear editing state after edit
+      setEditingAnswerId(null);
     }
   };
 
@@ -74,22 +80,31 @@ const UserPanelPage = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">User Panel</h1>
+    <div className="px-4 w-full md:w-1/3 lg:w-1/2  mx-auto">
+      <h1 className="text-2xl font-bold mt-6 text-center uppercase text-white">
+        User Panel
+      </h1>
       {isClient &&
-        questions.map((question: IQuestion) => (
-          <QuestionContainer
-            key={question.qid}
-            question={question}
-            answers={answers}
-            inputValues={inputValues}
-            editingAnswerId={editingAnswerId}
-            setEditingAnswerId={setEditingAnswerId}
-            handleInputChange={handleInputChange}
-            submitAnswer={submitAnswer}
-            editAnswer={editAnswer}
-          />
-        ))}
+        questions.map((question: IQuestion, index: number) => {
+          const userAnswers = answers.filter(
+            (answer) => answer.answeredBy === session?.user?.name
+          );
+
+          return (
+            <QuestionContainer
+              index={index}
+              key={question.qid}
+              question={question}
+              answers={userAnswers}
+              inputValues={inputValues}
+              editingAnswerId={editingAnswerId}
+              setEditingAnswerId={setEditingAnswerId}
+              handleInputChange={handleInputChange}
+              submitAnswer={submitAnswer}
+              editAnswer={editAnswer}
+            />
+          );
+        })}
     </div>
   );
 };

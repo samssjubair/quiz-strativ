@@ -7,19 +7,19 @@ export const dummyUsers = [
   },
   {
     id: "2",
-    name: "abir@gmail.com",
+    name: "samss@gmail.com",
     password: "1234",
     role: "user",
   },
   {
     id: "3",
-    name: "kamal@gmail.com",
+    name: "messi@gmail.com",
     password: "1234",
     role: "user",
   },
   {
     id: "4",
-    name: "walter@gmail.com",
+    name: "mscott@gmail.com",
     password: "1234",
     role: "user",
   },

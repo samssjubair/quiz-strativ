@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { timeAgo } from "@/utils/timeAgo";
 import { AiFillEdit } from "react-icons/ai";
 
@@ -24,26 +24,42 @@ const AnswerDisplay: React.FC<AnswerDisplayProps> = ({
   setEditingAnswerId,
   editAnswer,
 }) => {
+  const [showEditHistory, setShowEditHistory] = useState(false);
+
+  const toggleEditHistory = () => {
+    setShowEditHistory((prevState) => !prevState);
+  };
+
   return (
-    <>
-      <div>{userAnswer.answer}</div>
+    <div className="bg-secondary m-4 rounded-lg p-4 shadow-lg text-white">
+      <div className="mb-4">Your answer: {userAnswer.answer}</div>
       <div className="text-sm text-gray-500">
-        <span>Edit History:</span>
-        {userAnswer.editHistory.map((history, index) => (
-          <div className="flex gap-4" key={index}>
-            <span>{history.answer}</span>
-            <span>{timeAgo(history.date)} </span>
+        <button
+          className="text-white  hover:underline my-2"
+          onClick={toggleEditHistory}
+        >
+          {showEditHistory ? "Hide Edit History" : "View Edit History"}
+        </button>
+        <br />
+        {showEditHistory && (
+          <div className="mb-4">
+            <span className="font-bold text-gray-300 inline-block mt-2">Edit History:</span>
+            {userAnswer.editHistory.map((history, index) => (
+              <div className="flex gap-4 text-gray-300 my-1 justify-between" key={index}>
+                <span>{history.answer}</span>
+                <span className="text-gray-400">{timeAgo(history.date)} </span>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
       {editingAnswerId === questionId ? (
-        <>
-          <input
-            type="text"
+        <div className="">
+          <textarea
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value, questionId)}
-            placeholder="Type your edited answer here..."
-            className="border text-black border-gray-400 p-2 mr-2"
+            placeholder="Type your answer"
+            className="border w-full border-gray-400 text-white p-2 mr-2 rounded-lg bg-gray-800"
           />
           <button
             onClick={() => {
@@ -51,21 +67,21 @@ const AnswerDisplay: React.FC<AnswerDisplayProps> = ({
                 editAnswer(questionId, inputValue);
               }
             }}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-primary hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
           >
             Submit Edit
           </button>
-        </>
+        </div>
       ) : (
         <button
           onClick={() => setEditingAnswerId(questionId)}
-          className="text-blue-500 hover:underline flex items-center"
+          className="text-gray-300 mt-4 hover:underline flex items-center"
         >
           <AiFillEdit className="mr-1" />
           Edit Answer
         </button>
       )}
-    </>
+    </div>
   );
 };
 

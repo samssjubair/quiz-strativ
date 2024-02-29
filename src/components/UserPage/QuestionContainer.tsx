@@ -4,6 +4,7 @@ import AnswerDisplay from "./AnswerDisplay";
 import AnswerInput from "./AnswerInput";
 
 interface QuestionContainerProps {
+  index: number;
   question: IQuestion;
   answers: IAnswer[];
   inputValues: { [qid: string]: string };
@@ -15,6 +16,7 @@ interface QuestionContainerProps {
 }
 
 const QuestionContainer: React.FC<QuestionContainerProps> = ({
+  index,
   question,
   answers,
   inputValues,
@@ -28,14 +30,18 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({
   const inputValue = inputValues[question.qid] || "";
 
   return (
-    <div className="mb-4 text-white">
-      <h2 className="text-lg font-semibold">{question.qname}</h2>
+    <div className="mb-2 text-white p-4 mt-6 rounded hover:shadow-lg hover:shadow-sky-900">
+      <h2 className="text-lg ms-2 font-semibold">
+        {index + 1}. {question.qname}
+      </h2>
       {userAnswer ? (
         <AnswerDisplay
           userAnswer={userAnswer}
           editingAnswerId={editingAnswerId}
           inputValue={inputValue}
-          handleInputChange={(value: any) => handleInputChange(question.qid, value)}
+          handleInputChange={(value: any) =>
+            handleInputChange(question.qid, value)
+          }
           questionId={question.qid}
           setEditingAnswerId={setEditingAnswerId}
           editAnswer={editAnswer}
@@ -43,7 +49,9 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({
       ) : (
         <AnswerInput
           inputValue={inputValue}
-          handleInputChange={(value: any) => handleInputChange(question.qid, value)}
+          handleInputChange={(value: any) =>
+            handleInputChange(question.qid, value)
+          }
           questionId={question.qid}
           submitAnswer={submitAnswer}
         />
