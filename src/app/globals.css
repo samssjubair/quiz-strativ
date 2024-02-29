@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+    @apply bg-black;
+}
+
+.container-center{
+    @apply flex justify-center h-screen items-center;
+}
+
+.btn {
+  @apply transition-opacity p-2 border-gray-100 border px-4 rounded-md cursor-pointer hover:opacity-80 hover:shadow-lg ;
+}
+
+.login-btn {
+  @apply btn bg-primary text-white;
+}
+
+.logout-btn {
+  @apply btn bg-secondary text-white;
+}
+
+.icon{
+    @apply inline-block me-2 mb-1;
+}

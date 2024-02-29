@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <Navbar />
-          {children}
+          <div className="pt-16">{children}</div>
         </AuthProvider>
       </body>
     </html>
