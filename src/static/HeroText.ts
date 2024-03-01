@@ -12,7 +12,6 @@ export const heroText = [
     text: "for",
   },
   {
-    text: "Strativ",
-    className: "text-blue-500 ",
+    text: "Strativ."
   },
 ];

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { timeAgo } from "@/utils/timeAgo";
 import { AiFillEdit } from "react-icons/ai";
+import Button from "../Ui/Button";
+import { showToast } from "@/utils/showToast";
 
 interface AnswerDisplayProps {
   userAnswer: {
@@ -30,16 +32,24 @@ const AnswerDisplay: React.FC<AnswerDisplayProps> = ({
     setShowEditHistory((prevState) => !prevState);
   };
 
+  const handleEdit = () => {
+    showToast("Answer updated", "success");
+    if (inputValue.trim() !== "") {
+      editAnswer(questionId, inputValue);
+    }
+  };
+
   return (
     <div className="bg-secondary m-4 rounded-lg p-4 shadow-lg text-white">
       <div className="mb-4">Your answer: {userAnswer.answer}</div>
       <div className="text-sm text-gray-500">
-        <button
+        {userAnswer.editHistory.length >= 2 && <button
           className="text-white  hover:underline my-2"
           onClick={toggleEditHistory}
         >
-          {showEditHistory ? "Hide Edit History" : "View Edit History"}
+          { showEditHistory ? "Hide Edit History" : "View Edit History"}
         </button>
+        }
         <br />
         {showEditHistory && (
           <div className="mb-4">
@@ -54,30 +64,22 @@ const AnswerDisplay: React.FC<AnswerDisplayProps> = ({
         )}
       </div>
       {editingAnswerId === questionId ? (
-        <div className="">
+        <div>
           <textarea
             value={inputValue}
             onChange={(e) => handleInputChange(e.target.value, questionId)}
             placeholder="Type your answer"
             className="border w-full border-gray-400 text-white p-2 mr-2 rounded-lg bg-gray-800"
           />
-          <button
-            onClick={() => {
-              if (inputValue.trim() !== "") {
-                editAnswer(questionId, inputValue);
-              }
-            }}
-            className="bg-primary hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
-          >
-            Submit Edit
-          </button>
+          
+          <Button label="Submit Edit" onClick={handleEdit} type="primary" />
         </div>
       ) : (
         <button
           onClick={() => setEditingAnswerId(questionId)}
           className="text-gray-300 mt-4 hover:underline flex items-center"
         >
-          <AiFillEdit className="mr-1" />
+          <AiFillEdit className="mr-2" />
           Edit Answer
         </button>
       )}

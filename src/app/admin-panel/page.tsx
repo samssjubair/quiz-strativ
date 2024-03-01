@@ -4,6 +4,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { IAnswer, IQuestion } from "@/interfaces/global.interface";
 import { QuestionList } from "@/components/AdminPage/QuestionList";
 import { QuestionForm } from "@/components/AdminPage/QuestionForm";
+import { showToast } from "@/utils/showToast";
 
 
 const AdminPage: React.FC = () => {
@@ -20,6 +21,7 @@ const AdminPage: React.FC = () => {
   }, []); // Empty dependency array to ensure this effect runs only once
 
   const deleteQuestion = (qid: string) => {
+    showToast("Question deleted", "success");
     const updatedQuestions = questions.filter(
       (question) => question.qid !== qid
     );
@@ -40,7 +42,7 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-xl text-center text-white uppercase  font-bold mb-6">Admin Page</h1>
+      <h1 className="text-xl text-center text-white uppercase  font-bold mt-6 mb-8">Admin Panel</h1>
       <div className="w-full md:w-1/2 mx-auto">
         <QuestionForm
           onSubmit={(newQuestion) =>
