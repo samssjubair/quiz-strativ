@@ -1,8 +1,9 @@
 # Quiz App (Strativ Test) - by Samss Jubair
 
-### Live Site: [https://quiz-app-strativ.vercel.app/](https://quiz-app-strativ.vercel.app/)
+### Live Site: [https://quiz-strativ.vercel.app/](https://quiz-strativ.vercel.app/)
 
-### GitHub: 
+### GitHub: https://github.com/samssjubair/quiz-strativ
+
 
 ## Features
 - [x] Admin can login and add questions
@@ -14,6 +15,7 @@
 - [x] Admin can delete and edit questions
 - [x] Users can edit answers, but it will show the list of previous answers
 
+
 ## Technologies and Packages used
 - [x] Next.js
 - [x] Tailwind CSS
@@ -22,6 +24,7 @@
 - [x] clsx
 - [x] Next-auth
 - [x] Framer motion
+- [x] react-toastify
 
 
 ## Getting Started

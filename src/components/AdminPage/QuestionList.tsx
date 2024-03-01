@@ -16,7 +16,6 @@ export const QuestionList: React.FC<QuestionListProps> = ({
   onDelete,
   onEdit,
 }) => {
-  // console.log(answers, "a");
   return (
     <div>
       {questions.map((question, index) => (

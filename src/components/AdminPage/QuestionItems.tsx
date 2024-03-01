@@ -30,7 +30,7 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
     onEdit(question.qid, editedQuestion);
     setEditMode(false);
   };
-  // console.log(answers)
+
   return (
     <div className="flex flex-col bg-gray-100 rounded-lg p-4 mb-4 hover:shadow-lg hover:shadow-gray-500">
       <div className="flex justify-between">
@@ -59,7 +59,7 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
             onChange={(e) => setEditedQuestion(e.target.value)}
             className="border border-gray-200 p-2 rounded-lg w-full"
           />
-          <Button label="Save" onClick={handleSave} type="tertiary" />
+          <Button label="Save" onClick={handleSave} type="primary" />
         </div>
       )}
       <div className=" mt-2">
