@@ -4,6 +4,26 @@
 
 ### GitHub: https://github.com/samssjubair/quiz-strativ
 
+## Demo credentials
+Admin:
+
+Mail: admin@gmail.com
+Password: 1234
+
+User 1:
+
+Mail: samss@gmail.com
+Password: 1234
+
+User 2:
+
+Mail: messi@gmail.com
+Password: 1234
+
+User 3:
+
+Mail: mscott@gmail.com
+Password: 1234
 
 ## Features
 - [x] Admin can login and add questions
