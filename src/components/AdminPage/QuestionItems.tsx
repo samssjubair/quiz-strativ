@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
 import { IQuestion, IAnswer } from "@/interfaces/global.interface";
+import { timeAgo } from "@/utils/timeAgo";
+import { FaUser } from "react-icons/fa";
 
 interface QuestionItemProps {
   question: IQuestion;
@@ -28,22 +30,13 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
   // console.log(answers)
   return (
     <div className="flex flex-col bg-gray-100 rounded-lg p-4 mb-4">
-      <div className="flex items-center justify-between">
+      <div className="flex  justify-between">
         <div>
           <h4>
             {index + 1}.&nbsp; {question.qname}
           </h4>
-          <div className="ml-6 mt-2">
-            <h3 className="font-bold mb-2">Answers:</h3>
-            {answers.map((answer, i) => (
-              <div key={i} className="bg-gray-200 p-2 mb-2 rounded-lg">
-                <span>{answer.answeredBy}: </span>
-                <span>{answer.answer}</span>
-              </div>
-            ))}
-          </div>
         </div>
-        <div>
+        <div className="mt-2">
           <button onClick={() => onDelete(question.qid)}>
             <RiDeleteBin6Line />
           </button>
@@ -67,6 +60,25 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
           </button>
         </div>
       )}
+      <div className=" mt-4">
+        {!!answers.length && <h3 className="font-bold my-2">Answers:</h3>}
+        {answers.map((answer, i) => (
+          <div key={i} className="bg-gray-200 p-2 mb-2 rounded-lg">
+            <div className="flex justify-between">
+              <div className="flex gap-2 items-center">
+                <FaUser className="avatar" />
+                <div className="flex flex-col items-start">
+                  <span className="font-bold">{answer.answeredBy} </span>
+                  <span >{answer.answer}</span>
+                </div>
+              </div>
+              <span className="text-gray-500 text-sm ">
+                {timeAgo(answer.editHistory[0].date)}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

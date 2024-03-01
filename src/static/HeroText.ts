@@ -1,6 +1,6 @@
 export const heroText = [
   {
-    text: "Awsome",
+    text: "Awesome",
   },
   {
     text: "quiz",
@@ -13,6 +13,6 @@ export const heroText = [
   },
   {
     text: "Strativ",
-    className: "text-blue-500",
+    className: "text-blue-500 ",
   },
 ];
