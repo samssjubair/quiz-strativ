@@ -1,16 +1,16 @@
-"use client"
-
+"use client";
+import React, { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { IAnswer, IQuestion } from "@/interfaces/global.interface";
-import { timeAgo } from "@/utils/timeAgo";
-import { useEffect, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
+import QuestionContainer from "@/components/UserPage/QuestionContainer";
+import { useSession } from "next-auth/react";
 
 const UserPanelPage = () => {
   const [questions, setQuestions] = useLocalStorage<IQuestion[]>(
     "adminQuestions",
     []
   );
+  const { data: session } = useSession();
   const [answers, setAnswers] = useLocalStorage<IAnswer[]>("userAnswers", []);
   const [isClient, setIsClient] = useState(false);
   const [inputValues, setInputValues] = useState<{ [qid: string]: string }>({});
@@ -21,9 +21,13 @@ const UserPanelPage = () => {
   }, []);
 
   const submitAnswer = (qid: string, answer: string) => {
-    const existingAnswerIndex = answers.findIndex((a) => a.qid === qid);
+    const answeredBy = session?.user?.name || "Anonymous";
+    const existingAnswerIndex = answers.findIndex(
+      (a) => a.qid === qid && a.answeredBy === answeredBy
+    );
+
     if (existingAnswerIndex !== -1) {
-      // Update existing answer
+      // Update existing answer if the user has already answered the question
       const updatedAnswers = [...answers];
       updatedAnswers[existingAnswerIndex] = {
         ...answers[existingAnswerIndex],
@@ -35,12 +39,12 @@ const UserPanelPage = () => {
       };
       setAnswers(updatedAnswers);
     } else {
-      // Add new answer
+      // Add new answer if the user is answering the question for the first time
       const newAnswer: IAnswer = {
         answerId: generateAnswerId(),
         qid,
         answer,
-        answeredBy: "User", // You can replace "User" with the actual user's name
+        answeredBy,
         editHistory: [{ date: new Date().toISOString(), answer }],
       };
       setAnswers([...answers, newAnswer]);
@@ -48,19 +52,21 @@ const UserPanelPage = () => {
   };
 
   const editAnswer = (qid: string, editedAnswer: string) => {
+    const answeredBy = session?.user?.name || "Anonymous";
     const existingAnswerIndex = answers.findIndex((a) => a.qid === qid);
     if (existingAnswerIndex !== -1) {
       const updatedAnswers = [...answers];
       updatedAnswers[existingAnswerIndex] = {
         ...answers[existingAnswerIndex],
         answer: editedAnswer,
+        answeredBy,
         editHistory: [
           ...answers[existingAnswerIndex].editHistory,
           { date: new Date().toISOString(), answer: editedAnswer },
         ],
       };
       setAnswers(updatedAnswers);
-      setEditingAnswerId(null); // Clear editing state after edit
+      setEditingAnswerId(null);
     }
   };
 
@@ -76,91 +82,29 @@ const UserPanelPage = () => {
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">User Panel</h1>
+    <div className="px-4 w-full md:w-1/3 lg:w-1/2  mx-auto">
+      <h1 className="text-2xl font-bold mt-6 text-center uppercase text-white">
+        User Panel
+      </h1>
       {isClient &&
-        questions.map((question: IQuestion) => {
-          const userAnswer = answers.find((a) => a.qid === question.qid);
-          const inputValue = inputValues[question.qid] || "";
+        questions.map((question: IQuestion, index: number) => {
+          const userAnswers = answers.filter(
+            (answer) => answer.answeredBy === session?.user?.name
+          );
+
           return (
-            <div key={question.qid} className="mb-4">
-              <h2 className="text-lg font-semibold">{question.qname}</h2>
-              {userAnswer ? (
-                <>
-                  <div>{userAnswer.answer}</div>
-                  <div className="text-sm text-gray-500">
-                    <span>Edited:</span>
-                    {userAnswer.editHistory.map((history, index) => (
-                      <div className="flex gap-4" key={index}>
-                        <span>{history.answer}</span>
-                        <span>{timeAgo(history.date)} </span>
-                      </div>
-                    ))}
-                  </div>
-                  {editingAnswerId === question.qid ? (
-                    <>
-                      <input
-                        type="text"
-                        value={inputValue}
-                        onChange={(e) =>
-                          handleInputChange(question.qid, e.target.value)
-                        }
-                        placeholder="Type your edited answer here..."
-                        className="border border-gray-400 p-2 mr-2"
-                      />
-                      <button
-                        onClick={() => {
-                          if (inputValue.trim() !== "") {
-                            editAnswer(question.qid, inputValue);
-                            setInputValues({
-                              ...inputValues,
-                              [question.qid]: "",
-                            });
-                          }
-                        }}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        Submit Edit
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => setEditingAnswerId(question.qid)}
-                      className="text-blue-500 hover:underline flex items-center"
-                    >
-                      <AiFillEdit className="mr-1" />
-                      Edit Answer
-                    </button>
-                  )}
-                </>
-              ) : (
-                <div>
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) =>
-                      handleInputChange(question.qid, e.target.value)
-                    }
-                    placeholder="Type your answer here..."
-                    className="border border-gray-400 p-2 mr-2"
-                  />
-                  <button
-                    onClick={() => {
-                      if (inputValue.trim() !== "") {
-                        submitAnswer(question.qid, inputValue);
-                        setInputValues({
-                          ...inputValues,
-                          [question.qid]: "",
-                        });
-                      }
-                    }}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Submit Answer
-                  </button>
-                </div>
-              )}
-            </div>
+            <QuestionContainer
+              index={index}
+              key={question.qid}
+              question={question}
+              answers={userAnswers}
+              inputValues={inputValues}
+              editingAnswerId={editingAnswerId}
+              setEditingAnswerId={setEditingAnswerId}
+              handleInputChange={handleInputChange}
+              submitAnswer={submitAnswer}
+              editAnswer={editAnswer}
+            />
           );
         })}
     </div>
