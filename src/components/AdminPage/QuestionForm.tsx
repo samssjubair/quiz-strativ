@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Button from "../Ui/Button";
+import { showToast } from "@/utils/showToast";
 
 export const QuestionForm: React.FC<{ onSubmit: (newQuestion: string) => void }> = ({
   onSubmit,
@@ -6,6 +8,7 @@ export const QuestionForm: React.FC<{ onSubmit: (newQuestion: string) => void }>
   const [newQuestion, setNewQuestion] = useState("");
 
   const addQuestion = () => {
+    showToast("Question added", "success");
     if (newQuestion.trim() !== "") {
       onSubmit(newQuestion);
       setNewQuestion("");
@@ -20,12 +23,7 @@ export const QuestionForm: React.FC<{ onSubmit: (newQuestion: string) => void }>
         placeholder="Add a new question"
         className="border bg-primary text-white border-gray-400 rounded w-full p-2  flex-grow"
       />
-      <button
-        onClick={addQuestion}
-        className="bg-tertiary border-gray-600 border text-white font-bold py-2 px-4 rounded"
-      >
-        Add
-      </button>
+      <Button label="Add" onClick={addQuestion} type="tertiary" />
     </div>
   );
 };

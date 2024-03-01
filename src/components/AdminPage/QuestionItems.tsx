@@ -4,6 +4,8 @@ import { RiDeleteBin6Line, RiEdit2Line } from "react-icons/ri";
 import { IQuestion, IAnswer } from "@/interfaces/global.interface";
 import { timeAgo } from "@/utils/timeAgo";
 import { FaUser } from "react-icons/fa";
+import Button from "../Ui/Button";
+import { showToast } from "@/utils/showToast";
 
 interface QuestionItemProps {
   question: IQuestion;
@@ -24,23 +26,28 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
   const [editedQuestion, setEditedQuestion] = useState(question.qname);
 
   const handleSave = () => {
+    showToast("Question updated", "success");
     onEdit(question.qid, editedQuestion);
     setEditMode(false);
   };
   // console.log(answers)
   return (
     <div className="flex flex-col bg-gray-100 rounded-lg p-4 mb-4 hover:shadow-lg hover:shadow-gray-500">
-      <div className="flex  justify-between">
+      <div className="flex justify-between">
         <div>
           <h4 className="font-bold">
             {index + 1}.&nbsp; {question.qname}
           </h4>
         </div>
         <div className="mt-2">
-          <button onClick={() => onDelete(question.qid)}>
+          <button
+            title="Delete question"
+            className="me-2"
+            onClick={() => onDelete(question.qid)}
+          >
             <RiDeleteBin6Line />
           </button>
-          <button onClick={() => setEditMode(true)}>
+          <button title="Edit question" onClick={() => setEditMode(true)}>
             <RiEdit2Line />
           </button>
         </div>
@@ -52,24 +59,21 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
             onChange={(e) => setEditedQuestion(e.target.value)}
             className="border border-gray-200 p-2 rounded-lg w-full"
           />
-          <button
-            onClick={handleSave}
-            className="bg-tertiary hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg mt-2"
-          >
-            Save
-          </button>
+          <Button label="Save" onClick={handleSave} type="tertiary" />
         </div>
       )}
-      <div className=" mt-4">
-        {!!answers.length && <h3 className="font-bold my-2">Answers:</h3>}
+      <div className=" mt-2">
+        {!!answers.length && <h3 className="font-bold my-1">Answers:</h3>}
         {answers.map((answer, i) => (
           <div key={i} className="bg-gray-200 p-2 mb-2 rounded-lg">
             <div className="flex justify-between">
               <div className="flex gap-2 items-center">
                 <FaUser className="avatar" />
                 <div className="flex flex-col items-start">
-                  <span className="font-bold text-primary">{answer.answeredBy} </span>
-                  <span >{answer.answer}</span>
+                  <span className="font-bold text-primary">
+                    {answer.answeredBy}{" "}
+                  </span>
+                  <span>{answer.answer}</span>
                 </div>
               </div>
               <span className="text-gray-500 text-sm ">

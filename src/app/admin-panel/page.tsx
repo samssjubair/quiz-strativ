@@ -4,6 +4,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { IAnswer, IQuestion } from "@/interfaces/global.interface";
 import { QuestionList } from "@/components/AdminPage/QuestionList";
 import { QuestionForm } from "@/components/AdminPage/QuestionForm";
+import { showToast } from "@/utils/showToast";
 
 
 const AdminPage: React.FC = () => {
@@ -20,6 +21,7 @@ const AdminPage: React.FC = () => {
   }, []); // Empty dependency array to ensure this effect runs only once
 
   const deleteQuestion = (qid: string) => {
+    showToast("Question deleted", "success");
     const updatedQuestions = questions.filter(
       (question) => question.qid !== qid
     );

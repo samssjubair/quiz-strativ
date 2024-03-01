@@ -1,4 +1,5 @@
 "use client"
+import { showToast } from "@/utils/showToast";
 import { useState } from "react";
 
 interface EditAnswerProps {
@@ -19,6 +20,7 @@ const EditAnswer: React.FC<EditAnswerProps> = ({
   };
 
   const handleSave = () => {
+    showToast("Answer updated", "success");
     onSave(editedValue);
   };
 
