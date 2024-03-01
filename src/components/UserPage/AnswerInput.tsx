@@ -27,7 +27,7 @@ const AnswerInput: React.FC<AnswerInputProps> = ({
             submitAnswer(questionId, inputValue);
           }
         }}
-        className="bg-blue-500 mt-2 min-w-40 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+        className="btn bg-primary mt-2"
       >
         Submit Answer
       </button>

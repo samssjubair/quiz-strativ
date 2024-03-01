@@ -30,8 +30,8 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({
   const inputValue = inputValues[question.qid] || "";
 
   return (
-    <div className="mb-2 text-white p-4 mt-6 rounded hover:shadow-lg hover:shadow-sky-900">
-      <h2 className="text-lg ms-2 font-semibold">
+    <div className="mb-2 bg-primary text-white p-4 mt-6 rounded hover:shadow-lg hover:shadow-sky-900">
+      <h2 className="text-lg ms-4 font-semibold">
         {index + 1}. {question.qname}
       </h2>
       {userAnswer ? (

@@ -83,7 +83,7 @@ const UserPanelPage = () => {
 
   return (
     <div className="px-4 w-full md:w-1/3 lg:w-1/2  mx-auto">
-      <h1 className="text-2xl font-bold mt-6 text-center uppercase text-white">
+      <h1 className="text-2xl font-bold mt-8 mb-4  text-center uppercase text-white">
         User Panel
       </h1>
       {isClient &&

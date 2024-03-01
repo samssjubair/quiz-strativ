@@ -29,10 +29,10 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
   };
   // console.log(answers)
   return (
-    <div className="flex flex-col bg-gray-100 rounded-lg p-4 mb-4">
+    <div className="flex flex-col bg-gray-100 rounded-lg p-4 mb-4 hover:shadow-lg hover:shadow-gray-500">
       <div className="flex  justify-between">
         <div>
-          <h4>
+          <h4 className="font-bold">
             {index + 1}.&nbsp; {question.qname}
           </h4>
         </div>
@@ -68,7 +68,7 @@ export const QuestionItem: React.FC<QuestionItemProps> = ({
               <div className="flex gap-2 items-center">
                 <FaUser className="avatar" />
                 <div className="flex flex-col items-start">
-                  <span className="font-bold">{answer.answeredBy} </span>
+                  <span className="font-bold text-primary">{answer.answeredBy} </span>
                   <span >{answer.answer}</span>
                 </div>
               </div>

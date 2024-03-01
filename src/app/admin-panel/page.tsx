@@ -40,7 +40,7 @@ const AdminPage: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-xl text-center text-white uppercase  font-bold mb-6">Admin Page</h1>
+      <h1 className="text-xl text-center text-white uppercase  font-bold mt-6 mb-8">Admin Panel</h1>
       <div className="w-full md:w-1/2 mx-auto">
         <QuestionForm
           onSubmit={(newQuestion) =>

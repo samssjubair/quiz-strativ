@@ -34,12 +34,12 @@ const AnswerDisplay: React.FC<AnswerDisplayProps> = ({
     <div className="bg-secondary m-4 rounded-lg p-4 shadow-lg text-white">
       <div className="mb-4">Your answer: {userAnswer.answer}</div>
       <div className="text-sm text-gray-500">
-        <button
+        {userAnswer.editHistory.length >= 2 && <button
           className="text-white  hover:underline my-2"
           onClick={toggleEditHistory}
         >
-          {showEditHistory ? "Hide Edit History" : "View Edit History"}
-        </button>
+          { showEditHistory ? "Hide Edit History" : "View Edit History"}
+        </button>}
         <br />
         {showEditHistory && (
           <div className="mb-4">

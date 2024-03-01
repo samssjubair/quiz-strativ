@@ -25,7 +25,7 @@ const CredentialsModal: React.FC<CredentialsModalProps> = ({
         </button>
       }
     >
-      <h2 className="text-lg font-bold mb-4">Demo Credentials</h2>
+      <h2 className="text-lg font-bold text-center mb-4">Demo Credentials</h2>
       <div className="mb-4">
         <h3 className="text-base font-semibold mb-1">Admin:</h3>
         <p>Mail: admin@gmail.com</p>
