@@ -15,7 +15,7 @@ body{
 }
 
 .animated-btn{
-    @apply bg-white font-bold dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800;
+    @apply  font-bold bg-slate-900 text-white  border-slate-800;
 }
 
 .login-btn {
