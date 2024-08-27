@@ -10,9 +10,11 @@ import { TypewriterEffectSmooth } from "@/components/Ui/TypeWriterAnimationEffec
 import { heroText } from "@/static/HeroText";
 
 export default function Home() {
-  const [modalOpen, setModalOpen] = useState(false);
-      const { data: session, status } =     useSession()
-  var route = useRouter();
+  var [modalOpen, setModalOpen] = useState(false)
+
+  
+      const { data: session, status } =        useSession()
+  var route = useRouter()
 
   if (status === "loading") {
     return (
