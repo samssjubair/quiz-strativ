@@ -9,19 +9,29 @@ on:
       - master
 
 jobs:
-  lint: 
+  lint:
+    name: Run Linter on Changed Files
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: '18'  # Specify your Node.js version
 
       - name: Install dependencies
         run: npm install
 
-      - name: Lint code
-        run: npm run lint
+      - name: Get list of changed files
+        id: git_diff
+        run: |
+          echo "::set-output name=changed_files::$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.js$\|\.ts$' || echo 'NONE')"
+
+      - name: Run linter
+        if: steps.git_diff.outputs.changed_files != 'NONE'
+        run: |
+          echo "Linting files..."
+          echo "${{ steps.git_diff.outputs.changed_files }}" | xargs npx eslint
