@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { Button } from "@/components/Ui/MovingBorder";
 import CredentialsModal from "@/components/Home/CredentialsModal";
@@ -11,13 +11,15 @@ import { heroText } from "@/static/HeroText";
 
 export default function Home() {
   const [modalOpen, setModalOpen] = useState(false);
-  const { data: session, status } = useSession();
-  const route= useRouter();
+      const { data: session, status } =     useSession()
+  var route = useRouter();
 
   if (status === "loading") {
-    return <div className="container-center">
-      <Spinner/>
-    </div>;
+    return (
+      <div className="container-center">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
